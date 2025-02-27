@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+ {% block content %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+
+    .gallery-container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusts to screen size */
+      gap: 20px;
+    }
+
+    .gallery-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: white;
+      transition: transform 0.3s ease;
+      height: 350px;
+    }
+
+    .gallery-card:hover {
+      transform: scale(1.02);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-card .hover-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-card:hover .hover-image {
+      opacity: 1;
+    }
+
+    .gallery-card .card-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .gallery-card .out-label {
+      position: absolute;
+      top: 0.5px;
+      left: 5px;
+      background-color: #333;
+      color: white;
+      
+      padding: 2px;
+      border-radius: 2px;
+       
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .pagination a {
+      text-decoration: none;
+      margin: 0 5px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      background-color: white;
+      color: #333;
+      font-size: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .pagination a:hover {
+      background-color: green; /* Flash green on hover */
+      color: white;
+    }
+
+    .pagination a.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-card {
+        height: 300px; /* Adjust for smaller screens */
+      }
+      .gallery-card .card-text {
+        font-size: 12px; /* Smaller text on smaller screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-card {
+        height: 250px; /* Further adjust for very small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery-container">
+    <div id="gallery-grid" class="gallery-grid">
+      {% for dummy in page_obj %}
+      {% if dummy.category == 'Accessories' %}
+      <div class="gallery-card">
+        {% if dummy.status == "out" %}
+        <p class="out-label" style="font-size: smaller;">out</p>
+        {% endif %}
+        {% if dummy.status == "available" %}
+        <p class="out-label" style="font-size: smaller;">Available</p>
+        {% endif %}
+        <img src="{{ dummy.image.url }}" alt="{{ dummy.title }}">
+        {% if dummy.image_2 %}
+        <img class="hover-image" src="{{ dummy.image_2.url }}" alt="{{ dummy.title }} Hover">
+        {% endif %}
+        <div class="card-text">
+          Name: {{ dummy.title }}<br>
+          Price: {{ dummy.price }}<br>
+          Category: {{ dummy.category }}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>
+      {% else %}
+        <a class="disabled">&laquo; Prev</a>
+      {% endif %}
+
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&raquo; Next</a>
+      {% else %}
+        <a class="disabled">&raquo; Next</a>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}

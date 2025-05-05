@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
- {% block content %}
+{% block content %}
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-    }
-
     .gallery-container {
       padding: 20px;
       max-width: 1200px;
@@ -16,7 +9,7 @@
 
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusts to screen size */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
     }
 
@@ -69,14 +62,13 @@
 
     .gallery-card .out-label {
       position: absolute;
-      top: 0.5px;
+      top: 5px;
       left: 5px;
       background-color: #333;
       color: white;
-      
-      padding: 2px;
+      padding: 2px 6px;
       border-radius: 2px;
-       
+      font-size: 12px;
     }
 
     .pagination {
@@ -84,21 +76,23 @@
       justify-content: center;
       align-items: center;
       padding: 20px 0;
+      flex-wrap: wrap;
     }
 
     .pagination a {
       text-decoration: none;
-      margin: 0 5px;
+      margin: 5px;
       padding: 8px 12px;
       border-radius: 4px;
       background-color: white;
       color: #333;
       font-size: 14px;
+      border: 1px solid #ddd;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .pagination a:hover {
-      background-color: green; /* Flash green on hover */
+      background-color: green;
       color: white;
     }
 
@@ -109,43 +103,42 @@
 
     @media (max-width: 768px) {
       .gallery-card {
-        height: 300px; /* Adjust for smaller screens */
+        height: 300px;
       }
+
       .gallery-card .card-text {
-        font-size: 12px; /* Smaller text on smaller screens */
+        font-size: 12px;
       }
     }
 
     @media (max-width: 480px) {
       .gallery-card {
-        height: 250px; /* Further adjust for very small screens */
+        height: 250px;
       }
     }
   </style>
-</head>
-<body>
+
   <div class="gallery-container">
     <div id="gallery-grid" class="gallery-grid">
       {% for New in page_obj %}
-      {% if New.category == 'New' %}
-      <div class="gallery-card">
-        {% if New.status == "out" %}
-        <p class="out-label" style="font-size: smaller;">out</p>
+        {% if New.category == 'New' %}
+          <div class="gallery-card">
+            {% if New.status == "out" %}
+              <p class="out-label">Out</p>
+            {% elif New.status == "available" %}
+              <p class="out-label">Available</p>
+            {% endif %}
+            <img src="{{ New.image.url }}" alt="{{ New.title }}">
+            {% if New.image_2 %}
+              <img class="hover-image" src="{{ New.image_2.url }}" alt="{{ New.title }} Hover">
+            {% endif %}
+            <div class="card-text">
+              Name: {{ New.title }}<br>
+              Price: {{ New.price }}<br>
+              Category: {{ New.category }}
+            </div>
+          </div>
         {% endif %}
-        {% if New.status == "available" %}
-        <p class="out-label" style="font-size: smaller;">Available</p>
-        {% endif %}
-        <img src="{{ New.image.url }}" alt="{{ New.title }}">
-        {% if New.image_2 %}
-        <img class="hover-image" src="{{ New.image_2.url }}" alt="{{ New.title }} Hover">
-        {% endif %}
-        <div class="card-text">
-          Name: {{ New.title }}<br>
-          Price: {{ New.price }}<br>
-          Category: {{ New.category }}
-        </div>
-      </div>
-      {% endif %}
       {% endfor %}
     </div>
 
@@ -166,6 +159,4 @@
       {% endif %}
     </div>
   </div>
-</body>
-</html>
 {% endblock %}

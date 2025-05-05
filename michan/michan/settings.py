@@ -25,10 +25,10 @@ SECRET_KEY = 'django-insecure-qx)^t%h#q#_1k!gd#an5^ggs$*%^di+jt3ws2(4@xbb08ib86l
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True 
-ALLOWED_HOSTS = ["michan-production.up.railway.app", ]
-CSRF_TRUSTED_ORIGINS = ['https://michan-production.up.railway.app']
+ALLOWED_HOSTS = ["rackal-production.up.railway.app", ]
+CSRF_TRUSTED_ORIGINS = ['https://rackal-production.up.railway.app']
 CORS_ALLOWED_ORIGINS = [
-    "https://michan-production.up.railway.app",  
+    "https://rackal-production.up.railway.app",  
 ]
 
 

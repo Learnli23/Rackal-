@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qx)^t%h#q#_1k!gd#an5^ggs$*%^di+jt3ws2(4@xbb08ib86l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = False 
 ALLOWED_HOSTS = ["rackal-production.up.railway.app", ]
 CSRF_TRUSTED_ORIGINS = ['https://rackal-production.up.railway.app']
 CORS_ALLOWED_ORIGINS = [
@@ -145,3 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
  
+
